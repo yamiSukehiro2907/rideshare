@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: ride_share
+
+  data:
+    mongodb:
+      auto-index-creation: true
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+  mongodb:
+    uri: ${MONGODB_URI}
+    database: ${MONGODB_DB}
+
+server:
+  port: 8081
+  servlet:
+    session:
+      tracking-modes: cookie
+      timeout: 0
+      persistent: false
+
+app:
+  name: ride_share
+  version: 1.0.0
+  description: rideShare backend service
+  maintainer:
+    name: Vimal Kumar Yadav
+    email: vimalyadavkr001@gmail.com
+
+auth:
+  ACCESS_TOKEN_SECRET: ${ACCESS_TOKEN_SECRET}
+  REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
+  ACCESS_TOKEN_EXPIRATION: ${ACCESS_TOKEN_EXPIRATION}
+  REFRESH_TOKEN_EXPIRATION: ${REFRESH_TOKEN_EXPIRATION}

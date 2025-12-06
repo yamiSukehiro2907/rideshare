@@ -1,6 +1,7 @@
 package com.vimal.uber.security;
 
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -18,11 +19,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String identifier = authentication.getName();
+        String username = authentication.getName();
         String password = authentication.getCredentials().toString();
-
         try {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(identifier);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
             if (!userDetails.isAccountNonLocked()) {
                 throw new LockedException("Account is locked. Please contact support.");
@@ -46,7 +46,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
         } catch (UsernameNotFoundException e) {
-            throw new BadCredentialsException("No user found with this email or username.");
+            throw new BadCredentialsException("No user found with this username.");
         } catch (LockedException | DisabledException | AccountExpiredException | CredentialsExpiredException |
                  BadCredentialsException e) {
             throw e;
@@ -56,7 +56,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public boolean supports(Class<?> authentication) {
+    public boolean supports(@NotNull Class<?> authentication) {
         return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
     }
 }

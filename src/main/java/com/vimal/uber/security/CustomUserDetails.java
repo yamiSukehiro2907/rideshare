@@ -2,6 +2,7 @@ package com.vimal.uber.security;
 
 import com.vimal.uber.entities.User;
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,6 +19,7 @@ public class CustomUserDetails implements UserDetails {
         this.user = _user;
     }
 
+    @NotNull
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
@@ -32,6 +34,7 @@ public class CustomUserDetails implements UserDetails {
         return this.user.getId();
     }
 
+    @NotNull
     @Override
     public String getUsername() {
         return this.user.getUsername();

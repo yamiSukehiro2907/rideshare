@@ -2,6 +2,7 @@ package com.vimal.uber.security;
 
 import com.vimal.uber.entities.User;
 import com.vimal.uber.repositories.UserRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,8 +17,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         this.userRepository = _userRepository;
     }
 
+    @NotNull
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(@NotNull String username) throws UsernameNotFoundException {
         User user = userRepository.loadUserByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
