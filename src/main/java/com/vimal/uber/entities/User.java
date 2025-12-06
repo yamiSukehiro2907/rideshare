@@ -1,4 +1,4 @@
-package entities;
+package com.vimal.uber.entities;
 
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;

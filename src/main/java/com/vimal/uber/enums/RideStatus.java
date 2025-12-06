@@ -1,4 +1,4 @@
-package enums;
+package com.vimal.uber.enums;
 
 public enum RideStatus {
 

@@ -1,8 +1,12 @@
-package entities;
+package com.vimal.uber.entities;
 
+import com.vimal.uber.enums.RideStatus;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
 
 @Document(collection = "rides")
 @Data
@@ -16,5 +20,8 @@ public class Ride {
 
     private String dropLocation;
 
-    private
+    private RideStatus rideStatus = RideStatus.REQUESTED;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
 }
