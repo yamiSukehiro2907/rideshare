@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -38,12 +39,16 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
-    public ResponseEntity<ApiResponse<?>> acceptRide(String rideId) {
+    public ResponseEntity<ApiResponse<?>> acceptRide(String rideId, String userId) {
         Ride ride = rideRepository.findById(rideId);
         ResponseEntity<ApiResponse<?>> validationError = RideHelper.validateRideForAcceptance(ride);
         if (validationError != null) {
             return validationError;
         }
+        if (!ride.getDriverId().isEmpty()) {
+            return new ResponseEntity<>(ApiResponse.error("Ride driver already exists!"), HttpStatus.BAD_REQUEST);
+        }
+        ride.setDriverId(userId);
         ride.setRideStatus(RideStatus.ACCEPTED);
         Ride updatedRide = rideRepository.update(ride);
         RideDto rideDto = RideHelper.getRideDto(updatedRide);
@@ -51,11 +56,14 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
-    public ResponseEntity<ApiResponse<?>> completeRide(String rideId) {
+    public ResponseEntity<ApiResponse<?>> completeRide(String rideId, String userId) {
         Ride ride = rideRepository.findById(rideId);
         ResponseEntity<ApiResponse<?>> validationError = RideHelper.validateRideForCompletion(ride);
         if (validationError != null) {
             return validationError;
+        }
+        if (!Objects.equals(ride.getDriverId(), userId)) {
+            return new ResponseEntity<>(ApiResponse.error("You are not the driver!"), HttpStatus.CONFLICT);
         }
         ride.setRideStatus(RideStatus.COMPLETED);
         Ride updatedRide = rideRepository.update(ride);

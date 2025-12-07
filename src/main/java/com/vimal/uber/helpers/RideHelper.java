@@ -15,6 +15,7 @@ public class RideHelper {
         rideDto.setPickupLocation(ride.getPickupLocation());
         rideDto.setDropLocation(ride.getDropLocation());
         rideDto.setUserId(ride.getUserId());
+        rideDto.setDriverId(ride.getDriverId());
         rideDto.setRideStatus(ride.getRideStatus());
         rideDto.setCreatedDate(ride.getCreatedAt());
         return rideDto;

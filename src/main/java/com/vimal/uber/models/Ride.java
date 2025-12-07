@@ -16,6 +16,8 @@ public class Ride {
 
     private String userId;
 
+    private String driverId = "";
+
     private String pickupLocation;
 
     private String dropLocation;

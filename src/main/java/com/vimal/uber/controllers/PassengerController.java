@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
-public class RideController {
-
+public class PassengerController {
     private final RideService rideService;
 
     @GetMapping("/user/rides")
@@ -24,6 +23,9 @@ public class RideController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails customUserDetails)) {
             return new ResponseEntity<>(ApiResponse.error("Authentication Failed!"), HttpStatus.UNAUTHORIZED);
+        }
+        if (!customUserDetails.getUser().getRole().equals("USER_ROLE")) {
+            return new ResponseEntity<>(ApiResponse.error("Only Passengers allowed"), HttpStatus.UNAUTHORIZED);
         }
         return rideService.getMyRides(customUserDetails.getId());
     }
@@ -34,23 +36,10 @@ public class RideController {
         if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails customUserDetails)) {
             return new ResponseEntity<>(ApiResponse.error("Authentication Failed"), HttpStatus.UNAUTHORIZED);
         }
+        if (!customUserDetails.getUser().getRole().equals("USER_ROLE")) {
+            return new ResponseEntity<>(ApiResponse.error("Only Passengers allowed"), HttpStatus.UNAUTHORIZED);
+        }
         RideInfoRequest cleanedRideInfoRequest = new RideInfoRequest(rideInfoRequest.pickupLocation().trim(), rideInfoRequest.dropLocation().trim());
         return rideService.createRide(cleanedRideInfoRequest, customUserDetails.getId());
     }
-
-    @GetMapping("/driver/rides/requests")
-    public ResponseEntity<ApiResponse<?>> getRequestedRides() {
-        return rideService.getRequestedRides();
-    }
-
-    @PostMapping("/driver/rides/{rideId}/accept")
-    public ResponseEntity<ApiResponse<?>> acceptRide(@PathVariable("rideId") String rideId) {
-        return rideService.acceptRide(rideId);
-    }
-
-    @PostMapping("/driver/rides/{rideId}/complete")
-    public ResponseEntity<ApiResponse<?>> completeRide(@PathVariable("rideId") String rideId) {
-        return rideService.completeRide(rideId);
-    }
-
 }

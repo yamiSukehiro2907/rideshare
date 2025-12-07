@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class RideDto {
     private String rideId;
     private String userId;
+    private String driverId;
     private LocalDateTime createdDate;
     private RideStatus rideStatus;
     private String dropLocation;
