@@ -11,5 +11,4 @@ public interface UserRepository {
     User loadUserByUsername(String username);
 
     void save(User user);
-
 }

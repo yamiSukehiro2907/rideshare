@@ -22,6 +22,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
         try {
+
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
             if (!userDetails.isAccountNonLocked()) {

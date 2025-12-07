@@ -29,7 +29,6 @@ public class UserRepositoryImpl implements UserRepository {
         return mongoTemplate.findOne(query, User.class);
     }
 
-
     @Override
     public void save(User user) {
         mongoTemplate.save(user, "users");

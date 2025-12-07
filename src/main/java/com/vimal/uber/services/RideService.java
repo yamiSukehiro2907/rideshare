@@ -7,5 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface RideService {
 
-    ResponseEntity<ApiResponse<?>> getRides(RideInfoRequest rideInfoRequest , String userId);
+    ResponseEntity<ApiResponse<?>> createRide(RideInfoRequest rideInfoRequest , String userId);
+
+    ResponseEntity<ApiResponse<?>> getRequestedRides();
 }
