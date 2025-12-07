@@ -3,6 +3,7 @@ package com.vimal.uber.services;
 import com.vimal.uber.dtos.ApiResponse;
 import com.vimal.uber.dtos.LoginResponse;
 import com.vimal.uber.dtos.SignUpRequest;
+import com.vimal.uber.enums.Role;
 import com.vimal.uber.models.User;
 import com.vimal.uber.repositories.UserRepository;
 import com.vimal.uber.security.CustomUserDetails;
@@ -29,7 +30,10 @@ public class AuthServiceImpl implements AuthService {
             if (userRepository.loadUserByUsername(signUpRequest.username()) != null) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiResponse.error("Username already exists"));
             }
-
+            if (!Role.isValid(signUpRequest.role())) {
+                return ResponseEntity.badRequest()
+                        .body(ApiResponse.error("Invalid role. Only DRIVER and USER are allowed!"));
+            }
             User user = new User();
             user.setPassword(passwordEncoder.encode(signUpRequest.password()));
             user.setUsername(signUpRequest.username());
