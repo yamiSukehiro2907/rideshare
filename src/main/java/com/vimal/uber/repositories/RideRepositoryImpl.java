@@ -29,4 +29,14 @@ public class RideRepositoryImpl implements RideRepository {
         return mongoTemplate.find(query, Ride.class, "rides");
     }
 
+    @Override
+    public Ride findById(String id) {
+        return mongoTemplate.findById(id, Ride.class, "rides");
+    }
+
+    @Override
+    public Ride update(Ride ride) {
+        return mongoTemplate.save(ride ,  "rides");
+    }
+
 }

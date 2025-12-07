@@ -9,4 +9,8 @@ public interface RideRepository {
     Ride save(Ride ride);
 
     List<Ride> findAll();
+
+    Ride findById(String id);
+
+    Ride update(Ride ride);
 }
