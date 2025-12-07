@@ -1,7 +1,6 @@
 package com.vimal.uber.repositories;
 
-import com.vimal.uber.entities.User;
-import org.bson.types.ObjectId;
+import com.vimal.uber.models.User;
 
 public interface UserRepository {
 

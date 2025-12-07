@@ -1,6 +1,6 @@
 package com.vimal.uber.repositories;
 
-import com.vimal.uber.entities.User;
+import com.vimal.uber.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

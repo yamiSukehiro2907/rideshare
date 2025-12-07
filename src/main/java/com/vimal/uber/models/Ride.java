@@ -1,4 +1,4 @@
-package com.vimal.uber.entities;
+package com.vimal.uber.models;
 
 import com.vimal.uber.enums.RideStatus;
 import lombok.Data;
@@ -16,7 +16,7 @@ public class Ride {
 
     private String userId;
 
-    private String pickUpLocation;
+    private String pickupLocation;
 
     private String dropLocation;
 

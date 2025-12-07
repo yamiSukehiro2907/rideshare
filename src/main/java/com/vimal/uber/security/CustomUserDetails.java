@@ -1,6 +1,6 @@
 package com.vimal.uber.security;
 
-import com.vimal.uber.entities.User;
+import com.vimal.uber.models.User;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.GrantedAuthority;
