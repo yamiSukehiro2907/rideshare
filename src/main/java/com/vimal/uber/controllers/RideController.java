@@ -19,6 +19,15 @@ public class RideController {
 
     private final RideService rideService;
 
+    @GetMapping("/user/rides")
+    public ResponseEntity<ApiResponse<?>> getRides() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails customUserDetails)) {
+            return new ResponseEntity<>(ApiResponse.error("Authentication Failed!"), HttpStatus.UNAUTHORIZED);
+        }
+        return rideService.getMyRides(customUserDetails.getId());
+    }
+
     @PostMapping("/rides")
     public ResponseEntity<ApiResponse<?>> createRide(@Valid @RequestBody RideInfoRequest rideInfoRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
