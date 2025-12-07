@@ -13,4 +13,6 @@ public interface RideRepository {
     Ride findById(String id);
 
     Ride update(Ride ride);
+
+    List<Ride> findByUserId(String rideId);
 }

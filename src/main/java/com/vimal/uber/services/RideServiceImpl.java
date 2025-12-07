@@ -28,29 +28,21 @@ public class RideServiceImpl implements RideService {
         ride.setUserId(userId);
         Ride createdRide = rideRepository.save(ride);
         RideDto rideDto = RideHelper.getRideDto(createdRide);
-        return new ResponseEntity<>(ApiResponse.success("Ride created successfully!", rideDto), HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success("Ride created successfully!", rideDto));
     }
 
     @Override
     public ResponseEntity<ApiResponse<?>> getRequestedRides() {
-        List<Ride> rides = rideRepository.findAll();
-        List<RideDto> ridesDto = rides.stream()
-                .map(RideHelper::getRideDto)
-                .toList();
-        return new ResponseEntity<>(ApiResponse.success("Rides found!", ridesDto), HttpStatus.OK);
+        List<RideDto> ridesDto = rideRepository.findAll().stream().map(RideHelper::getRideDto).toList();
+        return ResponseEntity.ok(ApiResponse.success("Rides found!", ridesDto));
     }
 
     @Override
     public ResponseEntity<ApiResponse<?>> acceptRide(String rideId) {
         Ride ride = rideRepository.findById(rideId);
-        if (ride == null) {
-            return new ResponseEntity<>(ApiResponse.error("Ride not found!"), HttpStatus.NOT_FOUND);
-        }
-        if (ride.getRideStatus().equals(RideStatus.COMPLETED)) {
-            return new ResponseEntity<>(ApiResponse.error("Ride already completed!"), HttpStatus.BAD_REQUEST);
-        }
-        if (ride.getRideStatus().equals(RideStatus.ACCEPTED)) {
-            return new ResponseEntity<>(ApiResponse.error("Ride already accepted!"), HttpStatus.BAD_REQUEST);
+        ResponseEntity<ApiResponse<?>> validationError = RideHelper.validateRideForAcceptance(ride);
+        if (validationError != null) {
+            return validationError;
         }
         ride.setRideStatus(RideStatus.ACCEPTED);
         Ride updatedRide = rideRepository.update(ride);
@@ -61,14 +53,9 @@ public class RideServiceImpl implements RideService {
     @Override
     public ResponseEntity<ApiResponse<?>> completeRide(String rideId) {
         Ride ride = rideRepository.findById(rideId);
-        if (ride == null) {
-            return new ResponseEntity<>(ApiResponse.error("Ride not found!"), HttpStatus.NOT_FOUND);
-        }
-        if (ride.getRideStatus().equals(RideStatus.COMPLETED)) {
-            return new ResponseEntity<>(ApiResponse.error("Ride already completed!"), HttpStatus.BAD_REQUEST);
-        }
-        if (ride.getRideStatus().equals(RideStatus.REQUESTED)) {
-            return new ResponseEntity<>(ApiResponse.error("Ride not accepted yet!"), HttpStatus.BAD_REQUEST);
+        ResponseEntity<ApiResponse<?>> validationError = RideHelper.validateRideForCompletion(ride);
+        if (validationError != null) {
+            return validationError;
         }
         ride.setRideStatus(RideStatus.COMPLETED);
         Ride updatedRide = rideRepository.update(ride);
@@ -76,4 +63,9 @@ public class RideServiceImpl implements RideService {
         return ResponseEntity.ok(ApiResponse.success("Ride completed successfully!", rideDto));
     }
 
+    @Override
+    public ResponseEntity<ApiResponse<?>> getMyRides(String userId) {
+        List<RideDto> ridesDto = rideRepository.findByUserId(userId).stream().map(RideHelper::getRideDto).toList();
+        return ResponseEntity.ok(ApiResponse.success("Rides found!", ridesDto));
+    }
 }

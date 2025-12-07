@@ -13,4 +13,6 @@ public interface RideService {
     ResponseEntity<ApiResponse<?>> acceptRide(String rideId);
 
     ResponseEntity<ApiResponse<?>> completeRide(String rideId);
+
+    ResponseEntity<ApiResponse<?>> getMyRides(String rideId);
 }

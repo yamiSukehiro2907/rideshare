@@ -24,4 +24,5 @@ public class Ride {
 
     @CreatedDate
     private LocalDateTime createdAt;
+
 }

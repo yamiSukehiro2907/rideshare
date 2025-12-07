@@ -36,7 +36,15 @@ public class RideRepositoryImpl implements RideRepository {
 
     @Override
     public Ride update(Ride ride) {
-        return mongoTemplate.save(ride ,  "rides");
+        return mongoTemplate.save(ride, "rides");
     }
+
+    @Override
+    public List<Ride> findByUserId(String userId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("userId").is(userId));
+        return mongoTemplate.find(query, Ride.class, "rides");
+    }
+
 
 }
