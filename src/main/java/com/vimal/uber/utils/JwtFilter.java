@@ -33,7 +33,9 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain)
             throws ServletException, IOException {
-        String accessToken = AuthHelper.getAccessTokenFromHttpRequest(request);
+
+        String token = request.getHeader("Authorization");
+        String accessToken = token.split(" ")[1];
         if (accessToken != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             try {
                 String userId = jwtUtil.getIdAccessToken(accessToken);

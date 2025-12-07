@@ -1,9 +1,6 @@
 package com.vimal.uber.helpers;
 
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-
-import java.util.Arrays;
 
 public class AuthHelper {
 
@@ -23,20 +20,5 @@ public class AuthHelper {
         refreshCookie.setPath("/");
         refreshCookie.setMaxAge(maxAge);
         return refreshCookie;
-    }
-
-
-    public static String getAccessTokenFromHttpRequest(HttpServletRequest request) {
-        if (request.getCookies() != null) {
-            return Arrays.stream(request.getCookies()).filter(c -> "accessToken".equals(c.getName())).map(Cookie::getValue).findFirst().orElse(null);
-        }
-        return null;
-    }
-
-    public static String getRefreshTokenFromHttpRequest(HttpServletRequest request) {
-        if (request.getCookies() != null) {
-            return Arrays.stream(request.getCookies()).filter(c -> "refreshToken".equals(c.getName())).map(Cookie::getValue).findFirst().orElse(null);
-        }
-        return null;
     }
 }

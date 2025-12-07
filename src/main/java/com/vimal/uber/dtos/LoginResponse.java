@@ -2,6 +2,8 @@ package com.vimal.uber.dtos;
 
 public record LoginResponse(
         String userId,
-        String username
+        String username,
+        String accessToken,
+        String refreshToken
 ) {
 }

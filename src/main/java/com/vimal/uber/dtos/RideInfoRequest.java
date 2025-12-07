@@ -1,11 +1,11 @@
 package com.vimal.uber.dtos;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 public record RideInfoRequest(
-        @NotNull
+        @NotBlank(message = "Pickup is required")
         String pickupLocation,
-        @NotNull
+        @NotBlank(message = "Drop is required")
         String dropLocation
 ) {
 }

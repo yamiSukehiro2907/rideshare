@@ -27,8 +27,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<?>> createUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-        SignUpRequest cleanedRequest = new SignUpRequest(signUpRequest.username(), signUpRequest.password().trim());
-
+        SignUpRequest cleanedRequest = new SignUpRequest(signUpRequest.username(), signUpRequest.password().trim() , signUpRequest.role());
         if (cleanedRequest.password().length() < 6) {
             return ResponseEntity.badRequest().body(ApiResponse.error("Password should be at least 6 characters long"));
         }
@@ -39,15 +38,5 @@ public class AuthController {
     public ResponseEntity<ApiResponse<?>> login(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
         Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password()));
         return authService.loginUser(auth, response);
-    }
-
-    @PostMapping("/logout")
-    public ResponseEntity<ApiResponse<?>> logOut(HttpServletRequest request, HttpServletResponse response) {
-        return authService.logOutUser(request, response);
-    }
-
-    @PostMapping("/refresh")
-    public ResponseEntity<ApiResponse<?>> refreshUser(HttpServletRequest request, HttpServletResponse response) {
-        return authService.refreshUser(request, response);
     }
 }

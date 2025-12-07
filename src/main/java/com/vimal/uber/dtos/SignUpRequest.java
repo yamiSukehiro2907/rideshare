@@ -8,7 +8,10 @@ public record SignUpRequest(
         String username,
 
         @NotBlank(message = "Password is required")
-        @Size(min = 6, message = "Password must be at least 6 characters long")
-        String password
+        @Size(min = 3, message = "Password must be at least 3 characters long")
+        String password,
+
+        @NotBlank(message = "Role is required!")
+        String role
 ) {
 }
