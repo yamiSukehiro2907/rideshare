@@ -4,7 +4,6 @@ import com.vimal.uber.dtos.ApiResponse;
 import com.vimal.uber.dtos.LoginRequest;
 import com.vimal.uber.dtos.SignUpRequest;
 import com.vimal.uber.services.AuthService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +26,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<?>> createUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-        SignUpRequest cleanedRequest = new SignUpRequest(signUpRequest.username(), signUpRequest.password().trim() , signUpRequest.role());
+        SignUpRequest cleanedRequest = new SignUpRequest(signUpRequest.username(), signUpRequest.password().trim(), signUpRequest.role());
         if (cleanedRequest.password().length() < 6) {
             return ResponseEntity.badRequest().body(ApiResponse.error("Password should be at least 6 characters long"));
         }

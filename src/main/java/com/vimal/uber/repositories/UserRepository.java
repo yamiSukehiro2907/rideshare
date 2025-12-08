@@ -9,6 +9,4 @@ public interface UserRepository {
     User loadUserById(String userId);
 
     User loadUserByUsername(String username);
-
-    void save(User user);
 }

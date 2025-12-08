@@ -33,7 +33,16 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain)
             throws ServletException, IOException {
 
+
         String token = request.getHeader("Authorization");
+        if (token == null) {
+            response.setStatus(401);
+            response.setContentType("application/json");
+            response.getWriter().write(
+                    "{\"success\":false,\"message\":\"Token not provided\"}"
+            );
+            return;
+        }
         String accessToken = token.split(" ")[1];
         if (accessToken != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             try {

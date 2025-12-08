@@ -10,9 +10,9 @@ public interface RideService {
 
     ResponseEntity<ApiResponse<?>> getRequestedRides();
 
-    ResponseEntity<ApiResponse<?>> acceptRide(String rideId , String userId);
+    ResponseEntity<ApiResponse<?>> acceptRide(String rideId, String userId);
 
-    ResponseEntity<ApiResponse<?>> completeRide(String rideId , String userId);
+    ResponseEntity<ApiResponse<?>> completeRide(String rideId, String userId);
 
     ResponseEntity<ApiResponse<?>> getMyRides(String rideId);
 }

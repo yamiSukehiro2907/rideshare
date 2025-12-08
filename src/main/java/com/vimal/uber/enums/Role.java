@@ -12,4 +12,12 @@ public enum Role {
             return false;
         }
     }
+
+    public static Role getRole(String role) {
+        try {
+            return Role.valueOf(role);
+        } catch (IllegalArgumentException _) {
+            return null;
+        }
+    }
 }

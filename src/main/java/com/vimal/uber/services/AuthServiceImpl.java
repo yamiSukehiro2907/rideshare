@@ -4,6 +4,7 @@ import com.vimal.uber.dtos.ApiResponse;
 import com.vimal.uber.dtos.LoginResponse;
 import com.vimal.uber.dtos.SignUpRequest;
 import com.vimal.uber.enums.Role;
+import com.vimal.uber.helpers.UserHelper;
 import com.vimal.uber.models.User;
 import com.vimal.uber.repositories.UserRepository;
 import com.vimal.uber.security.CustomUserDetails;
@@ -37,11 +38,10 @@ public class AuthServiceImpl implements AuthService {
             User user = new User();
             user.setPassword(passwordEncoder.encode(signUpRequest.password()));
             user.setUsername(signUpRequest.username());
-            user.setRole(signUpRequest.role());
+            user.setRole(Role.getRole(signUpRequest.role()));
             userRepository.createUser(user);
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success("User created successfully", null));
-
+            User newUser = userRepository.loadUserByUsername(signUpRequest.username());
+            return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success("User created successfully", UserHelper.userToUserDto(newUser)));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(ApiResponse.error("Internal server error"));
         }
@@ -54,11 +54,8 @@ public class AuthServiceImpl implements AuthService {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
             assert userDetails != null;
             User user = userDetails.getUser();
-
             String accessToken = jwtUtil.generateAccessToken(userDetails);
-            String refreshToken = jwtUtil.generateRefreshToken(userDetails);
-
-            LoginResponse loginResponse = new LoginResponse(user.getId(), user.getUsername(), accessToken, refreshToken);
+            LoginResponse loginResponse = new LoginResponse(user.getId(), user.getUsername(), accessToken);
             return ResponseEntity.ok(ApiResponse.success("Login successful", loginResponse));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(ApiResponse.error("Internal server error"));

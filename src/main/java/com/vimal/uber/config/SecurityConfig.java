@@ -35,8 +35,9 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/api/v1/driver/**").hasRole(String.valueOf(Role.DRIVER))
-                        .requestMatchers("/api/v1/user/**").hasRole(String.valueOf(Role.USER))
+                        .requestMatchers("/api/v1/driver/**").hasRole(Role.DRIVER.name())
+                        .requestMatchers("/api/v1/user/**").hasRole(Role.USER.name())
+                        .requestMatchers("/api/v1/rides").hasRole(Role.USER.name())
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

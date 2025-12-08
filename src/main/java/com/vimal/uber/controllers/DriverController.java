@@ -20,7 +20,7 @@ public class DriverController {
     @GetMapping("/driver/rides/requests")
     public ResponseEntity<ApiResponse<?>> getRequestedRides() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails customUserDetails)) {
+        if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails)) {
             return new ResponseEntity<>(ApiResponse.error("Authentication Failed"), HttpStatus.UNAUTHORIZED);
         }
         return rideService.getRequestedRides();

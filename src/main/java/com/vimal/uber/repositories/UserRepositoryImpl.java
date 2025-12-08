@@ -15,7 +15,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void createUser(User user) {
-        mongoTemplate.insert(user, "users");
+         mongoTemplate.insert(user, "users");
     }
 
     @Override
@@ -27,11 +27,6 @@ public class UserRepositoryImpl implements UserRepository {
         Query query = new Query();
         query.addCriteria(Criteria.where("username").is(username));
         return mongoTemplate.findOne(query, User.class);
-    }
-
-    @Override
-    public void save(User user) {
-        mongoTemplate.save(user, "users");
     }
 
 }

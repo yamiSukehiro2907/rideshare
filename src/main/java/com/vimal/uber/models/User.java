@@ -1,5 +1,6 @@
 package com.vimal.uber.models;
 
+import com.vimal.uber.enums.Role;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -21,9 +22,7 @@ public class User {
 
     private String password;
 
-    private String role;
-
-    private String refreshToken;
+    private Role role;
 
     @CreatedDate
     private LocalDateTime createdAt;
