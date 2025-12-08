@@ -542,7 +542,7 @@ Not the assigned driver (409 Conflict):
 - All endpoints except `/auth/**` require JWT authentication
 - Access tokens are included in the `Authorization` header as `Bearer <token>`
 - Token expiration times are configurable via environment variables
-- Passwords must be at least 6 characters long
+- Passwords must be at least 3 characters long
 - Usernames must be unique
 - Only the driver who accepted a ride can complete it
 - Rides cannot be accepted or completed if they're already in `COMPLETED` status
