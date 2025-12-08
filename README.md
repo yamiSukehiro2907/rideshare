@@ -42,9 +42,7 @@ MONGODB_URI=your_mongodb_connection_string
 MONGODB_DB=your_database_name
 
 ACCESS_TOKEN_SECRET=your_access_token_secret_key
-REFRESH_TOKEN_SECRET=your_refresh_token_secret_key
 ACCESS_TOKEN_EXPIRATION=3600000
-REFRESH_TOKEN_EXPIRATION=86400000
 ```
 
 2. Build and run the application:
@@ -84,7 +82,7 @@ The server will start on `http://localhost:8081`
 {
   "success": true,
   "message": "User created successfully",
-  "data": null
+  "data": {user}
 }
 ```
 
@@ -153,8 +151,7 @@ Validation error (400 Bad Request):
   "data": {
     "userId": "507f1f77bcf86cd799439011",
     "username": "john_doe",
-    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
   }
 }
 ```
