@@ -24,9 +24,6 @@ public class PassengerController {
         if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails customUserDetails)) {
             return new ResponseEntity<>(ApiResponse.error("Authentication Failed!"), HttpStatus.UNAUTHORIZED);
         }
-        if (!customUserDetails.getUser().getRole().equals("USER_ROLE")) {
-            return new ResponseEntity<>(ApiResponse.error("Only Passengers allowed"), HttpStatus.UNAUTHORIZED);
-        }
         return rideService.getMyRides(customUserDetails.getId());
     }
 
@@ -35,9 +32,6 @@ public class PassengerController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails customUserDetails)) {
             return new ResponseEntity<>(ApiResponse.error("Authentication Failed"), HttpStatus.UNAUTHORIZED);
-        }
-        if (!customUserDetails.getUser().getRole().equals("USER_ROLE")) {
-            return new ResponseEntity<>(ApiResponse.error("Only Passengers allowed"), HttpStatus.UNAUTHORIZED);
         }
         RideInfoRequest cleanedRideInfoRequest = new RideInfoRequest(rideInfoRequest.pickupLocation().trim(), rideInfoRequest.dropLocation().trim());
         return rideService.createRide(cleanedRideInfoRequest, customUserDetails.getId());

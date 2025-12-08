@@ -1,5 +1,6 @@
 package com.vimal.uber.config;
 
+import com.vimal.uber.enums.Role;
 import com.vimal.uber.utils.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +35,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/api/v1/driver/**").hasRole(String.valueOf(Role.DRIVER))
+                        .requestMatchers("/api/v1/user/**").hasRole(String.valueOf(Role.USER))
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

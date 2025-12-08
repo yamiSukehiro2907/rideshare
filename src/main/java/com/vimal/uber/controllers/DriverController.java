@@ -1,7 +1,6 @@
 package com.vimal.uber.controllers;
 
 import com.vimal.uber.dtos.ApiResponse;
-import com.vimal.uber.models.User;
 import com.vimal.uber.security.CustomUserDetails;
 import com.vimal.uber.services.RideService;
 import lombok.RequiredArgsConstructor;
@@ -10,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,10 +23,6 @@ public class DriverController {
         if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails customUserDetails)) {
             return new ResponseEntity<>(ApiResponse.error("Authentication Failed"), HttpStatus.UNAUTHORIZED);
         }
-        User user = customUserDetails.getUser();
-        if (!Objects.equals(user.getRole(), "DRIVER_ROLE")) {
-            return new ResponseEntity<>(ApiResponse.error("Only drivers are allowed to accept rides!"), HttpStatus.UNAUTHORIZED);
-        }
         return rideService.getRequestedRides();
     }
 
@@ -39,10 +32,6 @@ public class DriverController {
         if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails customUserDetails)) {
             return new ResponseEntity<>(ApiResponse.error("Authentication Failed"), HttpStatus.UNAUTHORIZED);
         }
-        User user = customUserDetails.getUser();
-        if (!Objects.equals(user.getRole(), "DRIVER_ROLE")) {
-            return new ResponseEntity<>(ApiResponse.error("Only drivers are allowed to accept rides!"), HttpStatus.UNAUTHORIZED);
-        }
         return rideService.acceptRide(rideId, customUserDetails.getId());
     }
 
@@ -51,10 +40,6 @@ public class DriverController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails customUserDetails)) {
             return new ResponseEntity<>(ApiResponse.error("Authentication Failed"), HttpStatus.UNAUTHORIZED);
-        }
-        User user = customUserDetails.getUser();
-        if (!Objects.equals(user.getRole(), "DRIVER_ROLE")) {
-            return new ResponseEntity<>(ApiResponse.error("Only drivers are allowed to complete rides!"), HttpStatus.UNAUTHORIZED);
         }
         return rideService.completeRide(rideId, customUserDetails.getId());
     }

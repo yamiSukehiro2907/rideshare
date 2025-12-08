@@ -1,6 +1,5 @@
 package com.vimal.uber.utils;
 
-import com.vimal.uber.helpers.AuthHelper;
 import com.vimal.uber.security.CustomUserDetails;
 import com.vimal.uber.security.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
